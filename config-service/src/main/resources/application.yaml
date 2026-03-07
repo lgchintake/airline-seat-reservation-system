@@ -3,12 +3,19 @@ server:
 spring:
   application:
     name: config-service
+  profiles:
+    active: git,vault
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/lgchintake/airline-seat-reservation-system
           default-label: main
-          clone-on-start: true
-          search-paths:
-            - configs/*
+          uri: https://github.com/laxminarayan/airline-seat-reservation-system-config
+          search-paths: configs/*
+          order: 2
+        vault:
+          host: 127.0.0.1
+          port: 8200
+          scheme: http
+          kv-version: 2
+          order: 1
