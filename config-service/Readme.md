@@ -1,3 +1,5 @@
+
+
                 +----------------------+
                 |      React UI        |
                 +----------+-----------+
@@ -24,3 +26,26 @@
         |         Event / Message Bus         |
         |           (Kafka / RabbitMQ)        |
         +-------------------------------------+
+
+
+##Booking Flow
+
+User Search
+     ↓
+Search Service
+     ↓
+Flight Selected
+     ↓
+Seat Locked
+     ↓
+Booking Created
+     ↓
+Payment
+     ↓
+Ticket Issued
+
+##Miscellaneous
+
+Start Mysql:
+
+brew services start mysql
