@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Key Architecture Decisions</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&amp;family=Roboto+Mono:wght@400;500;700&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .decision-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .decision-card:hover {
+            transform: translateY(-4px);
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Card accent lines */
+        .card-accent {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        /* Specific Card Styles */
+        .card-blue { border-top: 3px solid #3b82f6; }
+        .card-orange { border-top: 3px solid #f97316; }
+        .card-red { border-top: 3px solid #ef4444; }
+        .card-teal { border-top: 3px solid #14b8a6; }
+        .card-purple { border-top: 3px solid #a855f7; }
+        .card-green { border-top: 3px solid #22c55e; }
+
+        .icon-circle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 1.25rem;
+        }
+
+        .bg-blue-glow { background: rgba(59, 130, 246, 0.15); color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.1); }
+        .bg-orange-glow { background: rgba(249, 115, 22, 0.15); color: #fb923c; box-shadow: 0 0 15px rgba(249, 115, 22, 0.1); }
+        .bg-red-glow { background: rgba(239, 68, 68, 0.15); color: #f87171; box-shadow: 0 0 15px rgba(239, 68, 68, 0.1); }
+        .bg-teal-glow { background: rgba(20, 184, 166, 0.15); color: #2dd4bf; box-shadow: 0 0 15px rgba(20, 184, 166, 0.1); }
+        .bg-purple-glow { background: rgba(168, 85, 247, 0.15); color: #c084fc; box-shadow: 0 0 15px rgba(168, 85, 247, 0.1); }
+        .bg-green-glow { background: rgba(34, 197, 94, 0.15); color: #4ade80; box-shadow: 0 0 15px rgba(34, 197, 94, 0.1); }
+
+    </style>
+</head>
+<body class="m-0 p-0 bg-gray-900 text-white overflow-hidden">
+<div class="w-[1280px] h-[720px] relative bg-[#0A1628] flex flex-col font-['Inter'] overflow-hidden">
+<!-- Background Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none">
+<svg fill="none" height="100%" viewbox="0 0 1280 720" width="100%" xmlns="http://www.w3.org/2000/svg">
+<!-- Abstract Hexagons -->
+<path d="M 1100 100 L 1150 130 L 1150 190 L 1100 220 L 1050 190 L 1050 130 Z" fill="none" stroke="#3b82f6" stroke-opacity="0.1" stroke-width="1"></path>
+<path d="M 150 600 L 200 630 L 200 690 L 150 720 L 100 690 L 100 630 Z" fill="none" stroke="#14b8a6" stroke-opacity="0.1" stroke-width="1"></path>
+<!-- Grid Pattern -->
+<defs>
+<pattern height="40" id="grid" patternunits="userSpaceOnUse" width="40" x="0" y="0">
+<circle cx="1" cy="1" fill="#FFFFFF" fill-opacity="0.03" r="1"></circle>
+</pattern>
+</defs>
+<rect fill="url(#grid)" height="720" width="1280"></rect>
+</svg>
+</div>
+<!-- Header -->
+<div class="relative z-10 w-full px-12 pt-10 pb-6 border-b border-gray-800 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-bold font-['Montserrat'] tracking-tight text-white mb-2">Key Architecture Decisions</h2>
+<div class="h-1 w-32 bg-indigo-500 rounded-full"></div>
+</div>
+<div class="text-right">
+<p class="text-sm font-mono text-gray-400">Design Rationale</p>
+<p class="text-xs text-gray-500 mt-1 uppercase">Trade-offs &amp; Principles</p>
+</div>
+</div>
+<!-- Main Content -->
+<div class="relative z-10 flex-1 w-full px-12 py-8 overflow-hidden">
+<div class="grid grid-cols-3 gap-6 h-full">
+<!-- Card 1: Microservices -->
+<div class="decision-card card-blue rounded-xl p-6 flex flex-col">
+<div class="flex items-start justify-between">
+<div class="icon-circle bg-blue-glow">
+<i class="fas fa-cubes"></i>
+</div>
+<span class="text-xs font-mono text-blue-400 border border-blue-500/30 px-2 py-1 rounded">CORE</span>
+</div>
+<h3 class="text-lg font-bold font-['Montserrat'] text-gray-100 mb-2">Microservices Architecture</h3>
+<p class="text-sm text-gray-300 mb-3 leading-relaxed flex-1">
+                        Decomposed the monolith into domain-aligned services to enable independent scaling and deployment cycles.
+                    </p>
+<div class="mt-auto pt-3 border-t border-gray-700/50">
+<p class="text-xs text-blue-200"><i class="fas fa-check mr-2"></i>Independent Deployment</p>
+<p class="text-xs text-blue-200 mt-1"><i class="fas fa-check mr-2"></i>Fault Isolation</p>
+</div>
+</div>
+<!-- Card 2: Kafka -->
+<div class="decision-card card-orange rounded-xl p-6 flex flex-col">
+<div class="flex items-start justify-between">
+<div class="icon-circle bg-orange-glow">
+<i class="fas fa-comments"></i>
+</div>
+<span class="text-xs font-mono text-orange-400 border border-orange-500/30 px-2 py-1 rounded">ASYNC</span>
+</div>
+<h3 class="text-lg font-bold font-['Montserrat'] text-gray-100 mb-2">Apache Kafka Streaming</h3>
+<p class="text-sm text-gray-300 mb-3 leading-relaxed flex-1">
+                        Utilized for high-throughput event streaming to decouple the booking flow from fulfillment services.
+                    </p>
+<div class="mt-auto pt-3 border-t border-gray-700/50">
+<p class="text-xs text-orange-200"><i class="fas fa-check mr-2"></i>Event Durability</p>
+<p class="text-xs text-orange-200 mt-1"><i class="fas fa-check mr-2"></i>Message Replay</p>
+</div>
+</div>
+<!-- Card 3: Redis Locking -->
+<div class="decision-card card-red rounded-xl p-6 flex flex-col">
+<div class="flex items-start justify-between">
+<div class="icon-circle bg-red-glow">
+<i class="fas fa-lock"></i>
+</div>
+<span class="text-xs font-mono text-red-400 border border-red-500/30 px-2 py-1 rounded">CRITICAL</span>
+</div>
+<h3 class="text-lg font-bold font-['Montserrat'] text-gray-100 mb-2">Redis Distributed Locks</h3>
+<p class="text-sm text-gray-300 mb-3 leading-relaxed flex-1">
+                        Implemented pessimistic locking with TTL to handle high concurrency seat selection and prevent double booking.
+                    </p>
+<div class="mt-auto pt-3 border-t border-gray-700/50">
+<p class="text-xs text-red-200"><i class="fas fa-code mr-2"></i>SET NX EX (TTL=5m)</p>
+<p class="text-xs text-red-200 mt-1"><i class="fas fa-check mr-2"></i>Atomic Operations</p>
+</div>
+</div>
+<!-- Card 4: Database per Service -->
+<div class="decision-card card-teal rounded-xl p-6 flex flex-col">
+<div class="flex items-start justify-between">
+<div class="icon-circle bg-teal-glow">
+<i class="fas fa-database"></i>
+</div>
+<span class="text-xs font-mono text-teal-400 border border-teal-500/30 px-2 py-1 rounded">DATA</span>
+</div>
+<h3 class="text-lg font-bold font-['Montserrat'] text-gray-100 mb-2">Polyglot Persistence</h3>
+<p class="text-sm text-gray-300 mb-3 leading-relaxed flex-1">
+                        Selected specific databases optimized for each microservice's workload requirements.
+                    </p>
+<div class="mt-auto pt-3 border-t border-gray-700/50">
+<p class="text-xs text-teal-200"><i class="fas fa-server mr-2"></i>MySQL</p>
+<p class="text-xs text-teal-200 mt-1"><i class="fas fa-search mr-2"></i>Elasticsearch (Search)</p>
+</div>
+</div>
+<!-- Card 5: Eventual Consistency -->
+<div class="decision-card card-purple rounded-xl p-6 flex flex-col">
+<div class="flex items-start justify-between">
+<div class="icon-circle bg-purple-glow">
+<i class="fas fa-balance-scale"></i>
+</div>
+<span class="text-xs font-mono text-purple-400 border border-purple-500/30 px-2 py-1 rounded">PATTERN</span>
+</div>
+<h3 class="text-lg font-bold font-['Montserrat'] text-gray-100 mb-2">Eventual Consistency</h3>
+<p class="text-sm text-gray-300 mb-3 leading-relaxed flex-1">
+                        Adopted Choreography Saga pattern to manage distributed transactions across booking, payment, and ticketing.
+                    </p>
+<div class="mt-auto pt-3 border-t border-gray-700/50">
+<p class="text-xs text-purple-200"><i class="fas fa-exchange-alt mr-2"></i>Saga Pattern</p>
+<p class="text-xs text-purple-200 mt-1"><i class="fas fa-undo mr-2"></i>Compensating Transactions</p>
+</div>
+</div>
+<!-- Card 6: Security -->
+<div class="decision-card card-green rounded-xl p-6 flex flex-col">
+<div class="flex items-start justify-between">
+<div class="icon-circle bg-green-glow">
+<i class="fas fa-shield-halved"></i>
+</div>
+<span class="text-xs font-mono text-green-400 border border-green-500/30 px-2 py-1 rounded">SEC</span>
+</div>
+<h3 class="text-lg font-bold font-['Montserrat'] text-gray-100 mb-2">Security &amp; Auth</h3>
+<p class="text-sm text-gray-300 mb-3 leading-relaxed flex-1">
+                        Centralized authentication at the API Gateway using JWT and enforced PCI-DSS standards for payments.
+                    </p>
+<div class="mt-auto pt-3 border-t border-gray-700/50">
+<p class="text-xs text-green-200"><i class="fas fa-key mr-2"></i>JWT at Gateway</p>
+<p class="text-xs text-green-200 mt-1"><i class="fas fa-credit-card mr-2"></i>PCI-DSS Compliant</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    const totalSlides = 12;
+    let currentSlide = parseInt(window.location.pathname.match(/slide(\d+)\.html/)[1]);
+
+    if (key === 'ArrowRight' || key === ' ') {
+      if (currentSlide < totalSlides) {
+        window.location.href = 'slide' + (currentSlide + 1) + '.html';
+      }
+    } else if (key === 'ArrowLeft') {
+      if (currentSlide > 1) {
+        window.location.href = 'slide' + (currentSlide - 1) + '.html';
+      }
+    }
+  });
+</script>
+</body>
+</html>

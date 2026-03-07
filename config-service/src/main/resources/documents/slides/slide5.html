@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Technology Stack</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&amp;family=Roboto+Mono:wght@400;500&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tech-row {
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .tech-row:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .tech-row:last-child {
+            border-bottom: none;
+        }
+
+        /* Category Badge Colors */
+        .badge-core { background-color: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-data { background-color: rgba(249, 115, 22, 0.2); color: #fdba74; border: 1px solid rgba(249, 115, 22, 0.3); }
+        .badge-infra { background-color: rgba(20, 184, 166, 0.2); color: #5eead4; border: 1px solid rgba(20, 184, 166, 0.3); }
+        .badge-test { background-color: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.3); }
+    </style>
+</head>
+<body class="m-0 p-0 bg-gray-900 text-white overflow-hidden">
+<div class="w-[1280px] h-[720px] relative bg-[#0A1628] flex flex-col font-['Inter'] overflow-hidden">
+<!-- Background Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none">
+<svg fill="none" height="100%" viewbox="0 0 1280 720" width="100%" xmlns="http://www.w3.org/2000/svg">
+<!-- Circuit-like pattern -->
+<path d="M 1280 100 L 1100 100 L 1100 200 L 900 200" fill="none" stroke="#14b8a6" stroke-opacity="0.1" stroke-width="1"></path>
+<path d="M 0 600 L 180 600 L 180 500 L 300 500" fill="none" stroke="#f97316" stroke-opacity="0.1" stroke-width="1"></path>
+<!-- Dots Grid -->
+<pattern height="20" id="dots" patternunits="userSpaceOnUse" width="20" x="0" y="0">
+<circle cx="2" cy="2" fill="#FFFFFF" fill-opacity="0.03" r="1"></circle>
+</pattern>
+<rect fill="url(#dots)" height="720" width="1280"></rect>
+</svg>
+</div>
+<!-- Header -->
+<div class="relative z-10 w-full px-12 pt-10 pb-4 border-b border-gray-800 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-bold font-['Montserrat'] tracking-tight text-white mb-2">Technology Stack</h2>
+<div class="h-1 w-32 bg-[#14b8a6] rounded-full"></div>
+</div>
+<div class="text-right">
+<p class="text-sm font-mono text-gray-400">Tools &amp; Frameworks</p>
+<p class="text-xs text-gray-500 mt-1">ENTERPRISE STANDARD</p>
+</div>
+</div>
+<!-- Main Content: Table -->
+<div class="relative z-10 flex-1 w-full px-12 py-8 flex flex-col justify-start overflow-hidden">
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col h-full">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 bg-gray-900/50 border-b border-gray-700 font-['Montserrat'] text-xs uppercase tracking-wider text-gray-400 font-bold">
+<div class="col-span-2">Layer</div>
+<div class="col-span-3">Technology</div>
+<div class="col-span-7">Usage &amp; Implementation Strategy</div>
+</div>
+<!-- Table Body -->
+<div class="overflow-y-auto flex-1 font-['Roboto_Mono'] text-sm">
+<!-- Row 1: Language -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-core">Core</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fab fa-java text-lg text-orange-400 w-6 text-center"></i>
+<span>Java 17</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>LTS version for stability. Uses Records for DTOs and Pattern Matching.</p>
+</div>
+</div>
+<!-- Row 2: Framework -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-core">Core</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fas fa-leaf text-lg text-green-400 w-6 text-center"></i>
+<span>Spring Boot 3.x</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>Microservices chassis. Spring WebFlux for reactive components where needed.</p>
+</div>
+</div>
+<!-- Row 3: API Gateway -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-infra">Ingress</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fas fa-door-open text-lg text-purple-400 w-6 text-center"></i>
+<span>Spring Cloud Gateway</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>Centralized entry point. Handles routing, rate limiting, and JWT validation.</p>
+</div>
+</div>
+<!-- Row 4: Messaging -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-data">Data</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fas fa-project-diagram text-lg text-white w-6 text-center"></i>
+<span>Apache Kafka</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>Event backbone. Decouples booking, payment, and notification services.</p>
+</div>
+</div>
+<!-- Row 5: Cache / Lock -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-data">Data</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fas fa-layer-group text-lg text-red-500 w-6 text-center"></i>
+<span>Redis</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>Distributed locking for seats (Redlock). Caching flight search results.</p>
+</div>
+</div>
+<!-- Row 6: Databases -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-data">Data</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fas fa-database text-lg text-blue-400 w-6 text-center"></i>
+<span>MySQL</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>Polyglot persistence. PostgreSQL for transactional data; Elastic for search.</p>
+</div>
+</div>
+<!-- Row 7: Auth -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-core">Security</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fas fa-shield-alt text-lg text-yellow-400 w-6 text-center"></i>
+<span>OAuth2 / JWT</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>Stateless authentication. Tokens carry user context across services.</p>
+</div>
+</div>
+<!-- Row 8: Tracing -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-infra">Ops</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fas fa-search-location text-lg text-pink-400 w-6 text-center"></i>
+<span>Zipkin / Sleuth</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>Distributed tracing to visualize latency and bottlenecks across microservices.</p>
+</div>
+</div>
+<!-- Row 10: Cloud -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-infra">Infra</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fas fa-cloud text-lg text-cyan-400 w-6 text-center"></i>
+<span>K8s / Docker</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>Container orchestration for scalability and resilience.</p>
+</div>
+</div>
+<!-- Row 11: Testing -->
+<div class="grid grid-cols-12 gap-4 px-6 py-3 tech-row items-center">
+<div class="col-span-2"><span class="px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wide badge-test">QA</span></div>
+<div class="col-span-3 flex items-center gap-3 text-white">
+<i class="fas fa-vial text-lg text-purple-400 w-6 text-center"></i>
+<span>JUnit 5 / Testcontainers</span>
+</div>
+<div class="col-span-7 text-gray-400 text-xs font-['Inter']">
+<p>Comprehensive testing strategy with Mockito. Target &gt;70% code coverage.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    const totalSlides = 12;
+    let currentSlide = parseInt(window.location.pathname.match(/slide(\d+)\.html/)[1]);
+
+    if (key === 'ArrowRight' || key === ' ') {
+      if (currentSlide < totalSlides) {
+        window.location.href = 'slide' + (currentSlide + 1) + '.html';
+      }
+    } else if (key === 'ArrowLeft') {
+      if (currentSlide > 1) {
+        window.location.href = 'slide' + (currentSlide - 1) + '.html';
+      }
+    }
+  });
+</script>
+</body>
+</html>

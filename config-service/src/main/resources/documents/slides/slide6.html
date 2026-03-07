@@ -1,0 +1,262 @@
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Event-Driven Architecture</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&amp;family=Roboto+Mono:wght@400;500&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .topic-row {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .topic-row:hover {
+            background-color: rgba(249, 115, 22, 0.08); /* Orange tint on hover */
+            border-left: 2px solid #f97316;
+        }
+
+        .topic-row:last-child {
+            border-bottom: none;
+        }
+
+        .kafka-badge {
+            background-color: rgba(249, 115, 22, 0.15);
+            color: #fb923c;
+            border: 1px solid rgba(249, 115, 22, 0.3);
+        }
+
+        .service-tag {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            display: inline-block;
+            margin-right: 4px;
+            margin-bottom: 2px;
+        }
+
+        /* Stream animation lines */
+        .stream-line {
+            stroke-dasharray: 10;
+            animation: dash 30s linear infinite;
+        }
+        
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+    </style>
+</head>
+<body class="m-0 p-0 bg-gray-900 text-white overflow-hidden">
+<div class="w-[1280px] h-[720px] relative bg-[#0A1628] flex flex-col font-['Inter'] overflow-hidden">
+<!-- Background Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none">
+<svg fill="none" height="100%" viewbox="0 0 1280 720" width="100%" xmlns="http://www.w3.org/2000/svg">
+<!-- Data Stream Pattern -->
+<path class="stream-line" d="M 0 300 Q 640 200 1280 300" fill="none" stroke="#f97316" stroke-opacity="0.1" stroke-width="2"></path>
+<path class="stream-line" d="M 0 320 Q 640 220 1280 320" fill="none" stroke="#f97316" stroke-opacity="0.05" stroke-width="1"></path>
+<path class="stream-line" d="M 0 400 Q 640 500 1280 400" fill="none" stroke="#14b8a6" stroke-opacity="0.05" stroke-width="1"></path>
+<!-- Hexagon Pattern -->
+<pattern height="50" id="hex" patternunits="userSpaceOnUse" width="50" x="0" y="0">
+<path d="M25 0 L50 12.5 L50 37.5 L25 50 L0 37.5 L0 12.5 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.02"></path>
+</pattern>
+<rect fill="url(#hex)" height="720" width="1280"></rect>
+</svg>
+</div>
+<!-- Header -->
+<div class="relative z-10 w-full px-12 pt-10 pb-4 border-b border-gray-800 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-bold font-['Montserrat'] tracking-tight text-white mb-2">Event-Driven Architecture</h2>
+<div class="h-1 w-32 bg-[#f97316] rounded-full"></div>
+</div>
+<div class="text-right">
+<p class="text-sm font-mono text-gray-400">Asynchronous Messaging</p>
+<p class="text-xs text-gray-500 mt-1">APACHE KAFKA BACKBONE</p>
+</div>
+</div>
+<!-- Main Content -->
+<div class="relative z-10 flex flex-1 w-full px-12 py-8 gap-8">
+<!-- Left Column: Explanation -->
+<div class="w-1/3 flex flex-col gap-6">
+<!-- Concept Card -->
+<div class="glass-panel p-6 rounded-xl border-l-4 border-l-orange-500">
+<div class="flex items-center gap-3 mb-4">
+<i class="fas fa-project-diagram text-2xl text-orange-500"></i>
+<h3 class="text-xl font-bold text-white font-['Montserrat']">Why Kafka?</h3>
+</div>
+<p class="text-gray-300 text-sm leading-relaxed mb-4">
+                        We use Apache Kafka to decouple high-throughput booking operations from downstream processes like payments and notifications.
+                    </p>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<i class="fas fa-bolt text-orange-400 mt-1"></i>
+<div class="text-xs text-gray-400">
+<strong class="text-gray-200">Async Processing:</strong> User gets immediate feedback while heavy tasks run in background.
+                            </div>
+</li>
+<li class="flex items-start gap-3">
+<i class="fas fa-shield-alt text-orange-400 mt-1"></i>
+<div class="text-xs text-gray-400">
+<strong class="text-gray-200">Fault Tolerance:</strong> Events are persisted. If a service fails, it replays events upon recovery.
+                            </div>
+</li>
+<li class="flex items-start gap-3">
+<i class="fas fa-expand-arrows-alt text-orange-400 mt-1"></i>
+<div class="text-xs text-gray-400">
+<strong class="text-gray-200">Scalability:</strong> Partitioned topics allow horizontal scaling of consumer groups.
+                            </div>
+</li>
+</ul>
+</div>
+<!-- Stats/Visual -->
+<div class="glass-panel p-6 rounded-xl flex items-center justify-between">
+<div class="text-center">
+<p class="text-3xl font-bold text-white">3</p>
+<p class="text-[10px] text-gray-500 uppercase">Partitions/Topic</p>
+</div>
+<div class="h-8 w-px bg-gray-700"></div>
+<div class="text-center">
+<p class="text-3xl font-bold text-white">7</p>
+<p class="text-[10px] text-gray-500 uppercase">Retention Days</p>
+</div>
+<div class="h-8 w-px bg-gray-700"></div>
+<div class="text-center">
+<p class="text-3xl font-bold text-white">JSON</p>
+<p class="text-[10px] text-gray-500 uppercase">Schema Format</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Topic Table -->
+<div class="w-2/3 flex flex-col h-full">
+<div class="glass-panel rounded-xl overflow-hidden flex flex-col h-full">
+<!-- Table Header -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 bg-gray-900/50 border-b border-gray-700 font-['Montserrat'] text-xs uppercase tracking-wider text-orange-400 font-bold">
+<div class="col-span-4">Topic Name</div>
+<div class="col-span-3">Producer</div>
+<div class="col-span-3">Consumer(s)</div>
+<div class="col-span-2">Purpose</div>
+</div>
+<!-- Table Body -->
+<div class="overflow-y-auto flex-1 font-['Inter']">
+<!-- Topic 1 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 topic-row items-center">
+<div class="col-span-4 flex items-center gap-3">
+<i class="fas fa-envelope-open-text text-gray-500"></i>
+<span class="font-mono text-sm text-orange-200">seat-lock-request</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-blue-500/30 text-blue-200">Booking Svc</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-red-500/30 text-red-200">Seat Lock Svc</span>
+</div>
+<div class="col-span-2 text-xs text-gray-400">Request temporary hold on seats</div>
+</div>
+<!-- Topic 2 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 topic-row items-center">
+<div class="col-span-4 flex items-center gap-3">
+<i class="fas fa-lock text-gray-500"></i>
+<span class="font-mono text-sm text-orange-200">seat-locked</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-red-500/30 text-red-200">Seat Lock Svc</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-blue-500/30 text-blue-200">Booking Svc</span>
+</div>
+<div class="col-span-2 text-xs text-gray-400">Confirm seat lock success</div>
+</div>
+<!-- Topic 3 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 topic-row items-center">
+<div class="col-span-4 flex items-center gap-3">
+<i class="fas fa-file-contract text-gray-500"></i>
+<span class="font-mono text-sm text-orange-200">booking-created</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-blue-500/30 text-blue-200">Booking Svc</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-green-500/30 text-green-200">Payment Svc</span>
+<span class="service-tag border border-purple-500/30 text-purple-200">Ticket Svc</span>
+</div>
+<div class="col-span-2 text-xs text-gray-400">Initiate payment &amp; fulfillment</div>
+</div>
+<!-- Topic 4 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 topic-row items-center">
+<div class="col-span-4 flex items-center gap-3">
+<i class="fas fa-check-circle text-gray-500"></i>
+<span class="font-mono text-sm text-orange-200">payment-success</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-green-500/30 text-green-200">Payment Svc</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-blue-500/30 text-blue-200">Booking Svc</span>
+<span class="service-tag border border-purple-500/30 text-purple-200">Ticket Svc</span>
+</div>
+<div class="col-span-2 text-xs text-gray-400">Trigger ticket issuance</div>
+</div>
+<!-- Topic 5 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 topic-row items-center">
+<div class="col-span-4 flex items-center gap-3">
+<i class="fas fa-ticket-alt text-gray-500"></i>
+<span class="font-mono text-sm text-orange-200">ticket-issued</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-purple-500/30 text-purple-200">Ticket Svc</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-yellow-500/30 text-yellow-200">Notification Svc</span>
+</div>
+<div class="col-span-2 text-xs text-gray-400">Send email/SMS to user</div>
+</div>
+<!-- Topic 6 -->
+<div class="grid grid-cols-12 gap-4 px-6 py-4 topic-row items-center">
+<div class="col-span-4 flex items-center gap-3">
+<i class="fas fa-undo text-gray-500"></i>
+<span class="font-mono text-sm text-orange-200">booking-cancelled</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-blue-500/30 text-blue-200">Booking Svc</span>
+</div>
+<div class="col-span-3">
+<span class="service-tag border border-red-500/30 text-red-200">Seat Lock Svc</span>
+<span class="service-tag border border-green-500/30 text-green-200">Payment Svc</span>
+</div>
+<div class="col-span-2 text-xs text-gray-400">Release seats &amp; refund</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    const totalSlides = 12;
+    let currentSlide = parseInt(window.location.pathname.match(/slide(\d+)\.html/)[1]);
+
+    if (key === 'ArrowRight' || key === ' ') {
+      if (currentSlide < totalSlides) {
+        window.location.href = 'slide' + (currentSlide + 1) + '.html';
+      }
+    } else if (key === 'ArrowLeft') {
+      if (currentSlide > 1) {
+        window.location.href = 'slide' + (currentSlide - 1) + '.html';
+      }
+    }
+  });
+</script>
+</body>
+</html>

@@ -10,12 +10,17 @@ spring:
       server:
         git:
           default-label: main
-          uri: https://github.com/laxminarayan/airline-seat-reservation-system-config
+          uri: https://github.com/lgchintake/airline-seat-reservation-system
           search-paths: configs/*
+          clone-on-start: true
           order: 2
         vault:
           host: 127.0.0.1
           port: 8200
           scheme: http
           kv-version: 2
+          backend: airline-system
           order: 1
+    vault:
+      kv:
+        enabled: true

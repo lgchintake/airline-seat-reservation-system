@@ -56,4 +56,25 @@ public class SeatInventoryController {
     public void deleteSeatInventory(@PathVariable Long id) {
         seatInventoryService.deleteSeatInventory(id);
     }
+
+    @Operation(summary = "Lock a seat", description = "Locks a seat for a given flight instance")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Seat locked successfully"),
+            @ApiResponse(responseCode = "409", description = "Seat is already locked")
+    })
+    @PostMapping("/lock")
+    public ResponseEntity<String> lockSeat(@RequestParam Long flightInstanceId, @RequestParam String seatNumber, @RequestParam(defaultValue = "5") long lockDurationMinutes) {
+        boolean locked = seatInventoryService.lockSeat(flightInstanceId, seatNumber, lockDurationMinutes);
+        if (locked) {
+            return ResponseEntity.ok("Seat locked successfully");
+        } else {
+            return ResponseEntity.status(409).body("Seat is already locked");
+        }
+    }
+
+    @Operation(summary = "Get seat status", description = "Gets the status of a seat")
+    @GetMapping("/status")
+    public String getSeatStatus(@RequestParam Long flightInstanceId, @RequestParam String seatNumber) {
+        return seatInventoryService.getSeatStatus(flightInstanceId, seatNumber);
+    }
 }

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Flight Search Flow</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&amp;family=Roboto+Mono:wght@400;500;700&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .flow-step {
+            position: relative;
+            padding-left: 1rem;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 0.5rem;
+        }
+        
+        .flow-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .flow-step::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #3b82f6; /* Blue default */
+        }
+
+        .flow-step.teal::before { background-color: #14b8a6; }
+        .flow-step.orange::before { background-color: #f97316; }
+
+        .image-wrapper {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body class="m-0 p-0 bg-gray-900 text-white overflow-hidden">
+<div class="w-[1280px] h-[720px] relative bg-[#0A1628] flex flex-col font-['Inter'] overflow-hidden">
+<!-- Background Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none">
+<svg fill="none" height="100%" viewbox="0 0 1280 720" width="100%" xmlns="http://www.w3.org/2000/svg">
+<!-- Search Nodes Pattern -->
+<circle cx="100" cy="200" fill="#3b82f6" fill-opacity="0.3" r="2"></circle>
+<circle cx="200" cy="150" fill="#3b82f6" fill-opacity="0.3" r="2"></circle>
+<circle cx="150" cy="250" fill="#3b82f6" fill-opacity="0.3" r="2"></circle>
+<path d="M 100 200 L 200 150 L 150 250 Z" fill="none" stroke="#3b82f6" stroke-opacity="0.1"></path>
+<circle cx="1100" cy="500" fill="#f97316" fill-opacity="0.3" r="2"></circle>
+<circle cx="1200" cy="550" fill="#f97316" fill-opacity="0.3" r="2"></circle>
+<circle cx="1150" cy="450" fill="#f97316" fill-opacity="0.3" r="2"></circle>
+<path d="M 1100 500 L 1200 550 L 1150 450 Z" fill="none" stroke="#f97316" stroke-opacity="0.1"></path>
+<!-- Grid Pattern -->
+<pattern height="40" id="dots" patternunits="userSpaceOnUse" width="40" x="0" y="0">
+<circle cx="1" cy="1" fill="#FFFFFF" fill-opacity="0.03" r="1"></circle>
+</pattern>
+<rect fill="url(#dots)" height="720" width="1280"></rect>
+</svg>
+</div>
+<!-- Header -->
+<div class="relative z-10 w-full px-12 pt-10 pb-4 border-b border-gray-800 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-bold font-['Montserrat'] tracking-tight text-white mb-2">Flight Search Flow</h2>
+<div class="h-1 w-32 bg-[#3b82f6] rounded-full"></div>
+</div>
+<div class="text-right">
+<p class="text-sm font-mono text-gray-400">Discovery &amp; Selection</p>
+<p class="text-xs text-gray-500 mt-1">SEARCH PIPELINE &amp; SEAT MAP</p>
+</div>
+</div>
+<!-- Main Content -->
+<div class="relative z-10 flex flex-1 w-full px-12 py-8 gap-8 overflow-hidden">
+<!-- Left Column: Search Pipeline -->
+<div class="flex-1 glass-panel rounded-xl p-5 flex flex-col gap-4 border border-blue-500/20">
+<!-- Title Row -->
+<div class="flex items-center justify-between border-b border-gray-700/50 pb-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-blue-500/20 flex items-center justify-center text-blue-400">
+<i class="fas fa-search"></i>
+</div>
+<h3 class="text-lg font-bold font-['Montserrat'] text-gray-100">Search Pipeline</h3>
+</div>
+<span class="px-2 py-1 bg-blue-900/50 text-blue-300 text-[10px] font-mono rounded border border-blue-700/50">READ-HEAVY</span>
+</div>
+<!-- Image Area -->
+<div class="flex-1 image-wrapper relative">
+<img alt="Search Pipeline Diagram" class="max-h-full max-w-full object-contain p-2" src="./search_availability.svg"/>
+<div class="absolute bottom-2 right-2 bg-black/60 px-2 py-1 rounded text-[10px] text-gray-400">High-Level Flow</div>
+</div>
+<!-- Flow Description -->
+<div class="bg-gray-900/40 rounded-lg p-4 border border-gray-700/30">
+<p class="text-xs font-bold text-gray-400 uppercase mb-2 font-['Montserrat']">Process Execution</p>
+<div class="flex flex-col gap-2">
+<div class="flow-step teal">
+<p class="text-xs text-gray-300"><strong class="text-teal-400">Request:</strong> Customer sends GET request with source, destination, and date.</p>
+</div>
+<div class="flow-step teal">
+<p class="text-xs text-gray-300"><strong class="text-teal-400">Routing:</strong> API Gateway authenticates and routes to <span class="font-mono text-blue-300">Flight Search Service</span>.</p>
+</div>
+<div class="flow-step teal">
+<p class="text-xs text-gray-300"><strong class="text-teal-400">Query &amp; Response:</strong> Service queries Flight DB (Read Replica), enriches with fare info, and returns flight list.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Seat Map -->
+<div class="flex-1 glass-panel rounded-xl p-5 flex flex-col gap-4 border border-orange-500/20">
+<!-- Title Row -->
+<div class="flex items-center justify-between border-b border-gray-700/50 pb-3">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-orange-500/20 flex items-center justify-center text-orange-400">
+<i class="fas fa-chair"></i>
+</div>
+<h3 class="text-lg font-bold font-['Montserrat'] text-gray-100">Seat Map Preview</h3>
+</div>
+<span class="px-2 py-1 bg-orange-900/50 text-orange-300 text-[10px] font-mono rounded border border-orange-700/50">REAL-TIME</span>
+</div>
+<!-- Image Area -->
+<div class="flex-1 image-wrapper relative">
+<img alt="Seat Map Diagram" class="max-h-full max-w-full object-contain p-2" src="./seat_map.png"/>
+<div class="absolute bottom-2 right-2 bg-black/60 px-2 py-1 rounded text-[10px] text-gray-400">UI Interaction</div>
+</div>
+<!-- Flow Description -->
+<div class="bg-gray-900/40 rounded-lg p-4 border border-gray-700/30">
+<p class="text-xs font-bold text-gray-400 uppercase mb-2 font-['Montserrat']">Process Execution</p>
+<div class="flex flex-col gap-2">
+<div class="flow-step orange">
+<p class="text-xs text-gray-300"><strong class="text-orange-400">Selection:</strong> Customer selects a specific flight to view seat map.</p>
+</div>
+<div class="flow-step orange">
+<p class="text-xs text-gray-300"><strong class="text-orange-400">Validation:</strong> <span class="font-mono text-blue-300">Seat Lock Service</span> checks Redis for real-time lock status.</p>
+</div>
+<div class="flow-step orange">
+<p class="text-xs text-gray-300"><strong class="text-orange-400">Visualization:</strong> Returns seat matrix with status (Available, Occupied, Locked) to frontend.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    const totalSlides = 12;
+    let currentSlide = parseInt(window.location.pathname.match(/slide(\d+)\.html/)[1]);
+
+    if (key === 'ArrowRight' || key === ' ') {
+      if (currentSlide < totalSlides) {
+        window.location.href = 'slide' + (currentSlide + 1) + '.html';
+      }
+    } else if (key === 'ArrowLeft') {
+      if (currentSlide > 1) {
+        window.location.href = 'slide' + (currentSlide - 1) + '.html';
+      }
+    }
+  });
+</script>
+</body>
+</html>

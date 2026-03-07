@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Summary &amp; Future Enhancements</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&amp;family=Roboto+Mono:wght@400;500;700&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-card, .future-card {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .summary-card:hover, .future-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            background: rgba(30, 41, 59, 0.6);
+        }
+
+        .section-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        /* List Items */
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            transition: background 0.2s;
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Icon Boxes */
+        .icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .check-icon {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .future-icon {
+            background: rgba(99, 102, 241, 0.15);
+            color: #818cf8;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        /* Header Icons */
+        .header-icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .summary-header-icon {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+        }
+
+        .future-header-icon {
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="m-0 p-0 bg-gray-900 text-white overflow-hidden">
+<div class="w-[1280px] h-[720px] relative bg-[#0A1628] flex flex-col font-['Inter'] overflow-hidden">
+<!-- Background Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none">
+<svg fill="none" height="100%" viewbox="0 0 1280 720" width="100%" xmlns="http://www.w3.org/2000/svg">
+<!-- Abstract Rings -->
+<circle cx="0" cy="720" fill="none" r="300" stroke="#4ade80" stroke-opacity="0.05" stroke-width="40"></circle>
+<circle cx="1280" cy="0" fill="none" r="400" stroke="#818cf8" stroke-opacity="0.05" stroke-width="60"></circle>
+<!-- Grid Pattern -->
+<defs>
+<pattern height="40" id="grid" patternunits="userSpaceOnUse" width="40" x="0" y="0">
+<circle cx="1" cy="1" fill="#FFFFFF" fill-opacity="0.03" r="1"></circle>
+</pattern>
+</defs>
+<rect fill="url(#grid)" height="720" width="1280"></rect>
+</svg>
+</div>
+<!-- Header -->
+<div class="relative z-10 w-full px-12 pt-10 pb-6 border-b border-gray-800 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-bold font-['Montserrat'] tracking-tight text-white mb-2">Summary &amp; Future Enhancements</h2>
+<div class="h-1 w-32 bg-indigo-500 rounded-full"></div>
+</div>
+<div class="text-right">
+<p class="text-sm font-mono text-gray-400">Conclusion</p>
+<p class="text-xs text-gray-500 mt-1 uppercase">Roadmap &amp; Vision</p>
+</div>
+</div>
+<!-- Main Content -->
+<div class="relative z-10 flex-1 w-full px-12 py-8 overflow-hidden flex gap-8">
+<!-- Left Column: Summary -->
+<div class="flex-1 summary-card border-green-500/20">
+<div class="section-header bg-green-900/10">
+<div class="header-icon-box summary-header-icon">
+<i class="fas fa-clipboard-check"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white font-['Montserrat']">System Summary</h3>
+<p class="text-sm text-green-300 font-mono">Key Benefits &amp; Achievements</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scroll">
+<div class="feature-item">
+<div class="icon-box check-icon"><i class="fas fa-check"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">Event-Driven Architecture</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Loosely coupled microservices communicating via Kafka ensure system resilience and flexibility.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box check-icon"><i class="fas fa-lock"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">Robust Concurrency Control</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Redis-based distributed seat locking mechanism effectively prevents overbooking scenarios.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box check-icon"><i class="fas fa-bolt"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">Fault Tolerance</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Async processing via Kafka allows the system to handle spikes and recover gracefully from failures.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box check-icon"><i class="fas fa-database"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">Data Isolation</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Database-per-service pattern ensures loose coupling and allows independent scaling of storage layers.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box check-icon"><i class="fas fa-chart-line"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">High Scalability</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Stateless services and horizontal scaling capabilities support high booking traffic loads.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box check-icon"><i class="fas fa-vial"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">Quality Assurance</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">70%+ unit test coverage achieved using JUnit 5 and Mockito.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Future Enhancements -->
+<div class="flex-1 future-card border-indigo-500/20">
+<div class="section-header bg-indigo-900/10">
+<div class="header-icon-box future-header-icon">
+<i class="fas fa-rocket"></i>
+</div>
+<div>
+<h3 class="text-xl font-bold text-white font-['Montserrat']">Future Roadmap</h3>
+<p class="text-sm text-indigo-300 font-mono">Optional Enhancements</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scroll">
+<div class="feature-item">
+<div class="icon-box future-icon"><i class="fas fa-exchange-alt"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">Saga Pattern Orchestration</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Implement comprehensive Saga pattern for managing complex distributed transactions across services.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box future-icon"><i class="fas fa-layer-group"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">CQRS Pattern</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Separate read and write models to optimize search performance independently of booking transactions.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box future-icon"><i class="fas fa-history"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">Event Sourcing</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Store state changes as a sequence of events to enable full audit trails and point-in-time recovery.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box future-icon"><i class="fas fa-project-diagram"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">GraphQL API Layer</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Introduce GraphQL for flexible, client-driven queries and reduced over-fetching of data.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box future-icon"><i class="fas fa-search-location"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">Distributed Tracing</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Integrate Jaeger or Zipkin for end-to-end observability and performance bottleneck analysis.</p>
+</div>
+</div>
+<div class="feature-item">
+<div class="icon-box future-icon"><i class="fas fa-brain"></i></div>
+<div>
+<p class="text-sm font-bold text-gray-200">AI Dynamic Pricing</p>
+<p class="text-xs text-gray-400 mt-1 leading-relaxed">Implement AI/ML models to adjust ticket prices dynamically based on demand and historical data.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    const totalSlides = 12;
+    let currentSlide = parseInt(window.location.pathname.match(/slide(\d+)\.html/)[1]);
+
+    if (key === 'ArrowRight' || key === ' ') {
+      if (currentSlide < totalSlides) {
+        window.location.href = 'slide' + (currentSlide + 1) + '.html';
+      }
+    } else if (key === 'ArrowLeft') {
+      if (currentSlide > 1) {
+        window.location.href = 'slide' + (currentSlide - 1) + '.html';
+      }
+    }
+  });
+</script>
+</body>
+</html>

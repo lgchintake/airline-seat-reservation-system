@@ -1,0 +1,303 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Seat Lock Strategy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&amp;family=Roboto+Mono:wght@400;500;700&amp;family=Inter:wght@300;400;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Code Editor Styles */
+      .code-window {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 8px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        font-family: "Roboto Mono", monospace;
+        overflow: hidden;
+      }
+
+      .code-header {
+        background-color: #252526;
+        padding: 8px 12px;
+        display: flex;
+        gap: 6px;
+        border-bottom: 1px solid #333;
+      }
+
+      .window-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .dot-red {
+        background-color: #ff5f56;
+      }
+      .dot-yellow {
+        background-color: #ffbd2e;
+      }
+      .dot-green {
+        background-color: #27c93f;
+      }
+
+      .code-content {
+        padding: 16px;
+        color: #d4d4d4;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      /* Syntax Highlighting */
+      .token-keyword {
+        color: #569cd6;
+        font-weight: bold;
+      } /* Blue */
+      .token-string {
+        color: #ce9178;
+      } /* Orange/Red */
+      .token-comment {
+        color: #6a9955;
+        font-style: italic;
+      } /* Green */
+      .token-variable {
+        color: #9cdcfe;
+      } /* Light Blue */
+      .token-method {
+        color: #dcdcaa;
+      } /* Yellow */
+      .token-number {
+        color: #b5cea8;
+      } /* Light Green */
+      .token-redis-cmd {
+        color: #ff7b72;
+        font-weight: bold;
+      } /* Redish for Redis commands */
+      .token-param {
+        color: #d19a66;
+      } /* Orange */
+
+      .explanation-card {
+        border-left: 3px solid #f97316;
+        background: rgba(249, 115, 22, 0.05);
+      }
+    </style>
+  </head>
+  <body class="m-0 p-0 bg-gray-900 text-white overflow-hidden">
+    <div
+      class="w-[1280px] h-[720px] relative bg-[#0A1628] flex flex-col font-['Inter'] overflow-hidden"
+    >
+      <!-- Background Elements -->
+      <div class="absolute inset-0 z-0 pointer-events-none">
+        <svg
+          fill="none"
+          height="100%"
+          viewbox="0 0 1280 720"
+          width="100%"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Abstract Lock Icon Background -->
+          <path
+            d="M 1100 400 L 1280 400 L 1280 720 L 1000 720 Z"
+            fill="#f97316"
+            fill-opacity="0.03"
+          ></path>
+          <!-- Grid Pattern -->
+          <pattern
+            height="40"
+            id="lockGrid"
+            patternunits="userSpaceOnUse"
+            width="40"
+            x="0"
+            y="0"
+          >
+            <path
+              d="M 40 0 L 0 0 0 40"
+              fill="none"
+              stroke="#FFFFFF"
+              stroke-opacity="0.02"
+              stroke-width="1"
+            ></path>
+          </pattern>
+          <rect fill="url(#lockGrid)" height="720" width="1280"></rect>
+        </svg>
+      </div>
+      <!-- Header -->
+      <div
+        class="relative z-10 w-full px-12 pt-10 pb-4 border-b border-gray-800 flex justify-between items-end"
+      >
+        <div>
+          <h2
+            class="text-4xl font-bold font-['Montserrat'] tracking-tight text-white mb-2"
+          >
+            Seat Lock Strategy
+          </h2>
+          <div class="h-1 w-32 bg-[#f97316] rounded-full"></div>
+        </div>
+        <div class="text-right">
+          <p class="text-sm font-mono text-gray-400">Concurrency Control</p>
+          <p class="text-xs text-gray-500 mt-1">PREVENTING DOUBLE BOOKING</p>
+        </div>
+      </div>
+      <!-- Main Content -->
+      <div
+        class="relative z-10 flex flex-1 w-full px-12 py-8 gap-8 overflow-hidden"
+      >
+        <!-- Left Column: Diagram -->
+        <div class="w-1/2 flex flex-col h-full">
+          <div
+            class="glass-panel rounded-xl p-2 flex items-center justify-center h-full relative border border-gray-700/50"
+          >
+            <!-- Diagram Image -->
+            <img
+              alt="Seat Lock Sequence Diagram"
+              class="max-h-full max-w-full object-contain rounded shadow-lg"
+              src="./duplicate_booking.png"
+            />
+            <!-- Caption -->
+            <div class="absolute bottom-4 left-0 right-0 text-center">
+              <span
+                class="bg-gray-900/80 px-4 py-1 rounded-full text-xs text-gray-400 border border-gray-700"
+              >
+                <i class="fas fa-project-diagram mr-2 text-teal-500"></i
+                >Duplicate Booking Detection Flow
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- Right Column: Explanation & Code -->
+        <div class="w-1/2 flex flex-col gap-6">
+          <!-- Explanation Section -->
+          <div class="glass-panel p-6 rounded-xl explanation-card">
+            <div class="flex items-center gap-3 mb-3">
+              <i
+                class="fas fa-exclamation-triangle text-orange-500 text-xl"
+              ></i>
+              <h3 class="text-lg font-bold text-white font-['Montserrat']">
+                The Race Condition
+              </h3>
+            </div>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+              In high-demand flights, multiple users may attempt to book the
+              same seat (e.g., <strong>12A</strong>) simultaneously. A standard
+              "Check-then-Act" database transaction is often too slow or complex
+              to scale.
+            </p>
+            <div class="space-y-2">
+              <div class="flex items-start gap-2">
+                <i class="fas fa-check-circle text-teal-400 mt-1 text-xs"></i>
+                <p class="text-xs text-gray-400">
+                  <strong class="text-white">Solution:</strong> Use Redis
+                  Distributed Locks (Redlock pattern).
+                </p>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fas fa-check-circle text-teal-400 mt-1 text-xs"></i>
+                <p class="text-xs text-gray-400">
+                  <strong class="text-white">Atomic Operation:</strong> The
+                  <code class="bg-gray-700 px-1 rounded text-orange-300"
+                    >SET NX</code
+                  >
+                  command ensures only one request succeeds.
+                </p>
+              </div>
+              <div class="flex items-start gap-2">
+                <i class="fas fa-check-circle text-teal-400 mt-1 text-xs"></i>
+                <p class="text-xs text-gray-400">
+                  <strong class="text-white">TTL Safety:</strong> The
+                  <code class="bg-gray-700 px-1 rounded text-orange-300"
+                    >EX</code
+                  >
+                  (Expiration) prevents deadlocks if a service crashes before
+                  releasing the lock.
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Code Block Section -->
+          <div class="flex-1 flex flex-col">
+            <h3
+              class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2 font-['Montserrat']"
+            >
+              <i class="fas fa-code mr-2 text-teal-500"></i>Implementation Logic
+            </h3>
+            <div class="code-window flex-1">
+              <div class="code-header">
+                <div class="window-dot dot-red"></div>
+                <div class="window-dot dot-yellow"></div>
+                <div class="window-dot dot-green"></div>
+                <span class="ml-2 text-xs text-gray-500 font-mono"
+                  >RedisLockService.java</span
+                >
+              </div>
+              <div class="code-content">
+                <!-- Redis Command Visualization -->
+                <div class="mb-4 pb-4 border-b border-gray-700">
+                  <span class="token-comment"># Redis Command (Pseudocode)</span
+                  ><br />
+                  <span class="token-redis-cmd">SET</span>
+                  <span class="token-param">lock:seat:FL123:12A</span>
+                  <span class="token-string">"booking_8842"</span>
+                  <span class="token-redis-cmd">NX</span>
+                  <span class="token-redis-cmd">EX</span>
+                  <span class="token-number">600</span>
+                  <br />
+                </div>
+                <!-- Java Implementation -->
+                <div>
+                  <span class="token-comment"
+                    >// Spring Boot Implementation</span
+                  ><br />
+                  <span class="token-keyword">public boolean</span>
+                  <span class="token-method">acquireLock</span>(<span
+                    class="token-variable"
+                    >String</span
+                  >
+                  flightId, <span class="token-variable">String</span> seatNo)
+                  {<br />
+                  <span class="token-variable">String</span> key =
+                  <span class="token-string">"lock:seat:"</span> + flightId +
+                  <span class="token-string">":"</span> + seatNo;<br />
+                  <br />
+                  <span class="token-comment">// Atomic operation</span><br />
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <script>
+  document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    const totalSlides = 12;
+    let currentSlide = parseInt(window.location.pathname.match(/slide(\d+)\.html/)[1]);
+
+    if (key === 'ArrowRight' || key === ' ') {
+      if (currentSlide < totalSlides) {
+        window.location.href = 'slide' + (currentSlide + 1) + '.html';
+      }
+    } else if (key === 'ArrowLeft') {
+      if (currentSlide > 1) {
+        window.location.href = 'slide' + (currentSlide - 1) + '.html';
+      }
+    }
+  });
+</script>
+</body>
+</html>

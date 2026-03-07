@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Scalability &amp; Reliability Design</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&amp;family=Roboto+Mono:wght@400;500;700&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-card {
+            background: rgba(30, 41, 59, 0.4);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-header {
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .bg-blue-glow { background: rgba(59, 130, 246, 0.15); color: #60a5fa; box-shadow: 0 0 15px rgba(59, 130, 246, 0.1); }
+        .bg-green-glow { background: rgba(34, 197, 94, 0.15); color: #4ade80; box-shadow: 0 0 15px rgba(34, 197, 94, 0.1); }
+
+        .list-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            transition: background 0.2s;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .item-icon {
+            margin-top: 2px;
+            font-size: 14px;
+        }
+
+        /* Infographic Styles */
+        .infographic-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            z-index: 2;
+        }
+
+        .node-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #1e293b;
+            border: 2px solid #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .info-node:hover .node-icon {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            background: #1e3a8a;
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .connector-line {
+            position: absolute;
+            top: 44px; /* Center of icon vertically approx */
+            left: 60px;
+            right: 60px;
+            height: 2px;
+            background: #334155;
+            z-index: 1;
+        }
+
+        .flow-arrow {
+            position: absolute;
+            top: 40px;
+            color: #475569;
+            font-size: 10px;
+            background: #0f172a;
+            padding: 0 4px;
+        }
+
+        /* Flow Animation Dots */
+        .flow-dot {
+            position: absolute;
+            top: 42px; /* Centered on line */
+            width: 6px;
+            height: 6px;
+            background: #3b82f6;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #3b82f6;
+            left: 80px;
+        }
+    </style>
+</head>
+<body class="m-0 p-0 bg-gray-900 text-white overflow-hidden">
+<div class="w-[1280px] h-[720px] relative bg-[#0A1628] flex flex-col font-['Inter'] overflow-hidden">
+<!-- Background Elements -->
+<div class="absolute inset-0 z-0 pointer-events-none">
+<svg fill="none" height="100%" viewbox="0 0 1280 720" width="100%" xmlns="http://www.w3.org/2000/svg">
+<!-- Abstract Pulse/Wave -->
+<path d="M 0 360 Q 320 300 640 360 T 1280 360" fill="none" stroke="#3b82f6" stroke-opacity="0.1" stroke-width="1"></path>
+<path d="M 0 380 Q 320 320 640 380 T 1280 380" fill="none" stroke="#14b8a6" stroke-opacity="0.1" stroke-width="1"></path>
+<!-- Grid Pattern -->
+<defs>
+<pattern height="40" id="grid" patternunits="userSpaceOnUse" width="40" x="0" y="0">
+<circle cx="1" cy="1" fill="#FFFFFF" fill-opacity="0.03" r="1"></circle>
+</pattern>
+</defs>
+<rect fill="url(#grid)" height="720" width="1280"></rect>
+</svg>
+</div>
+<!-- Header -->
+<div class="relative z-10 w-full px-12 pt-10 pb-6 border-b border-gray-800 flex justify-between items-end">
+<div>
+<h2 class="text-4xl font-bold font-['Montserrat'] tracking-tight text-white mb-2">Scalability &amp; Reliability</h2>
+<div class="h-1 w-32 bg-teal-500 rounded-full"></div>
+</div>
+<div class="text-right">
+<p class="text-sm font-mono text-gray-400">Non-Functional Requirements</p>
+<p class="text-xs text-gray-500 mt-1 uppercase">Resilience &amp; Performance Patterns</p>
+</div>
+</div>
+<!-- Main Content -->
+<div class="relative z-10 flex-1 w-full px-12 py-6 overflow-hidden flex flex-col gap-6">
+<!-- Two Columns -->
+<div class="grid grid-cols-2 gap-8 flex-1">
+<!-- Left Column: Scalability -->
+<div class="section-card border-blue-500/20">
+<div class="section-header bg-blue-900/10">
+<div class="header-icon bg-blue-glow">
+<i class="fas fa-expand-arrows-alt"></i>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white font-['Montserrat']">Scalability Patterns</h3>
+<p class="text-xs text-blue-300">Handling increased load &amp; throughput</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-2">
+<!-- Item 1 -->
+<div class="list-item">
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-server text-blue-400 mr-2"></i>
+      Horizontal Pod Autoscaling (HPA)
+    </p>
+    <p class="text-xs text-gray-400">
+      Automatically scales microservice replicas based on CPU/Memory metrics in Kubernetes.
+    </p>
+</div><!-- Item 2 -->
+<div class="list-item">
+  <div>
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-th-large text-blue-400 mr-2"></i>
+      Kafka Partitioning
+    </p>
+    <p class="text-xs text-gray-400">
+      Partitions topics by FlightID to ensure parallel processing while maintaining ordering.
+    </p>
+  </div>
+</div>
+
+<!-- Item 3 -->
+<div class="list-item">
+  <div>
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-database text-blue-400 mr-2"></i>
+      Redis Cluster
+    </p>
+    <p class="text-xs text-gray-400">
+      Sharded Redis instances for distributed caching and high-throughput locking.
+    </p>
+  </div>
+</div>
+
+<!-- Item 4 -->
+<div class="list-item">
+  <div>
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-microchip text-blue-400 mr-2"></i>
+      Stateless Microservices
+    </p>
+    <p class="text-xs text-gray-400">
+      Services do not store session state, allowing any instance to handle any request.
+    </p>
+  </div>
+</div>
+
+<!-- Item 5 -->
+<div class="list-item">
+  <div>
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-search text-blue-400 mr-2"></i>
+      Elasticsearch Indexing
+    </p>
+    <p class="text-xs text-gray-400">
+      Optimized inverted indices for sub-second flight search performance across millions of records.
+    </p>
+  </div>
+</div>
+</div>
+</div>
+<!-- Right Column: Reliability -->
+<div class="section-card border-green-500/20">
+<div class="section-header bg-green-900/10">
+<div class="header-icon bg-green-glow">
+<i class="fas fa-shield-alt"></i>
+</div>
+<div>
+<h3 class="text-lg font-bold text-white font-['Montserrat']">Reliability Patterns</h3>
+<p class="text-xs text-green-300">Fault tolerance &amp; system stability</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-2"><!-- Item 1 -->
+<div class="list-item">
+  <div>
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-toggle-on text-green-400 mr-2"></i>
+      Circuit Breaker (Resilience4j)
+    </p>
+    <p class="text-xs text-gray-400">
+      Fails fast when downstream services (e.g., Payment Gateway) are unresponsive to prevent cascading failures.
+    </p>
+  </div>
+</div>
+
+<!-- Item 2 -->
+<div class="list-item">
+  <div>
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-redo text-green-400 mr-2"></i>
+      Retry with Exponential Backoff
+    </p>
+    <p class="text-xs text-gray-400">
+      Automatically retries transient failures with increasing delays to avoid overwhelming recovering services.
+    </p>
+  </div>
+</div>
+
+<!-- Item 3 -->
+<div class="list-item">
+  <div>
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-envelope-open-text text-green-400 mr-2"></i>
+      Dead Letter Queue (DLQ)
+    </p>
+    <p class="text-xs text-gray-400">
+      Captures unprocessable Kafka messages for manual inspection, preventing consumer lag.
+    </p>
+  </div>
+</div>
+
+<!-- Item 4 -->
+<div class="list-item">
+  <div>
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-heartbeat text-green-400 mr-2"></i>
+      Health Checks &amp; Probes
+    </p>
+    <p class="text-xs text-gray-400">
+      Kubernetes Liveness/Readiness probes ensure traffic only goes to healthy pods.
+    </p>
+  </div>
+</div>
+
+<!-- Item 5 -->
+<div class="list-item">
+  <div>
+    <p class="text-sm font-bold text-gray-200">
+      <i class="fas fa-route text-green-400 mr-2"></i>
+      Distributed Tracing (Zipkin/OTel)
+    </p>
+    <p class="text-xs text-gray-400">
+      End-to-end request tracking to quickly identify performance bottlenecks and error roots.
+    </p>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Infographic -->
+<div class="h-32 mb-2">
+<div class="infographic-container h-full">
+<!-- Connector Line -->
+<div class="connector-line"></div>
+<!-- Nodes -->
+<div class="info-node">
+<div class="node-icon"><i class="fas fa-users"></i></div>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Traffic</p>
+</div>
+<div class="info-node">
+<div class="node-icon"><i class="fas fa-sitemap"></i></div>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Load Balancer</p>
+</div>
+<div class="info-node">
+<div class="node-icon"><i class="fas fa-clone"></i></div>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Multiple Instances</p>
+</div>
+<div class="info-node">
+<div class="node-icon" style="color:#f97316; border-color:#f97316;"><i class="fas fa-project-diagram"></i></div>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Kafka Stream</p>
+</div>
+<div class="info-node">
+<div class="node-icon"><i class="fas fa-database"></i></div>
+<p class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">Database Shards</p>
+</div>
+<!-- Flow Arrows -->
+<i class="fas fa-chevron-right flow-arrow" style="left: 19%;"></i>
+<i class="fas fa-chevron-right flow-arrow" style="left: 39%;"></i>
+<i class="fas fa-chevron-right flow-arrow" style="left: 59%;"></i>
+<i class="fas fa-chevron-right flow-arrow" style="left: 79%;"></i>
+<!-- Animated Dot -->
+<div class="flow-dot"></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  document.addEventListener('keydown', function(event) {
+    const key = event.key;
+    const totalSlides = 12;
+    let currentSlide = parseInt(window.location.pathname.match(/slide(\d+)\.html/)[1]);
+
+    if (key === 'ArrowRight' || key === ' ') {
+      if (currentSlide < totalSlides) {
+        window.location.href = 'slide' + (currentSlide + 1) + '.html';
+      }
+    } else if (key === 'ArrowLeft') {
+      if (currentSlide > 1) {
+        window.location.href = 'slide' + (currentSlide - 1) + '.html';
+      }
+    }
+  });
+</script>
+</body>
+</html>
