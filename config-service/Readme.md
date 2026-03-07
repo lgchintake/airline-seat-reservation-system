@@ -1,4 +1,4 @@
-
+## System Architecture
 
                     +----------------------+
                     |      React UI        |
@@ -28,8 +28,9 @@
             +-------------------------------------+
 
 
-##Booking Flow
+## Booking Flow
 
+```mermaid
 User Search
      ↓
 Search Service
@@ -43,9 +44,8 @@ Booking Created
 Payment
      ↓
 Ticket Issued
+```
 
-##Miscellaneous
+## Miscellaneous
 
-Start Mysql:
-
-brew services start mysql
+Start Mysql: brew services start mysql
