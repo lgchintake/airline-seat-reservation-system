@@ -1,4 +1,4 @@
-package com.airline.flight.service.config;
+package com.airline.booking.service.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -12,9 +12,9 @@ public class SwaggerConfig {
     public OpenAPI airlineApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Flight Service API")
+                        .title("Booking Service APIs")
                         .version("1.0")
-                        .description("API documentation for flight service"));
+                        .description("API documentation for booking service"));
     }
 
 }

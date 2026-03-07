@@ -4,7 +4,7 @@ spring:
   application:
     name: notification-service
   config:
-    import: optional:configserver:http://localhost:8888
+    import: "optional:configserver:http://localhost:8888"
   datasource:
     url: jdbc:mysql://localhost:3306/notification_service_db
     username: ${DB_USERNAME:root}
@@ -18,4 +18,4 @@ server:
   port: 8083
 springdoc:
   swagger-ui:
-    path: /swagger
+    path: /swagger-ui.html
