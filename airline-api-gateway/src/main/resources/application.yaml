@@ -1,5 +1,57 @@
 spring:
   application:
     name: airline-api-gateway
+  cloud:
+    loadbalancer:
+      simple:
+        instances:
+          booking-service:
+            - uri: http://localhost:9082
+
+          flight-service:
+            - uri: http://localhost:9083
+
+          notification-service:
+            - uri: http://localhost:9084
+
+          payment-service:
+            - uri: http://localhost:9085
+
+          search-service:
+            - uri: http://localhost:9086
+
+          lock-service:
+            - uri: http://localhost:9087
+    gateway:
+      routes:
+        - id: booking-service
+          uri: lb://booking-service
+          predicates:
+            - Path=/bookings/**
+
+        - id: flight-service
+          uri: lb://flight-service
+          predicates:
+            - Path=/flights/**
+
+        - id: notification-service
+          uri: lb://search-notification
+          predicates:
+            - Path=/notification/**
+
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/payment/**
+
+        - id: search-service
+          uri: lb://search-service
+          predicates:
+            - Path=/search/**
+
+        - id: lock-service
+          uri: lb://lock-service
+          predicates:
+            - Path=/lock/**
 server:
   port: 9081
