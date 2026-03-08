@@ -15,7 +15,7 @@ spring:
       hibernate.format_sql: true
       hibernate.dialect: org.hibernate.dialect.MySQLDialect
 server:
-  port: 8081
+  port: 9083
 springdoc:
   swagger-ui:
     path: /swagger-ui.html

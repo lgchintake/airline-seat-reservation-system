@@ -1,3 +1,5 @@
 spring:
   application:
     name: airline-api-gateway
+server:
+  port: 9081
