@@ -1,4 +1,4 @@
-package com.airline.booking.service.config;
+package com.airline.seat.locking.service.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -12,9 +12,9 @@ public class SwaggerConfig {
     public OpenAPI airlineApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Booking Service APIs")
+                        .title("Seat Locking Service APIs")
                         .version("1.0")
-                        .description("API documentation for booking service"));
+                        .description("API documentation for seat locking service"));
     }
 
 }

@@ -27,3 +27,6 @@ target/
 .DS_Store
 .mvn/
 .run/
+.gitattributes
+node_modules/
+package-lock.json
